@@ -41,10 +41,10 @@ public class ClientThread extends Thread{
          //State-logiken börjar här
          if (serverInput.equals("EXIT_GAME")){
              break;
-         } else if (serverInput.equals("WAITING_OTHER_PLAYER")){
-          System.out.println("Väntar på att spelare2 ansluter..");
+        // } else if (serverInput.equals("WAITING_OTHER_PLAYER")){ //Om vi vill att den ska vänta kan vi lägga till det
+          //System.out.println("Väntar på att spelare2 ansluter..");
           //Säger åt servern att fortsätta
-          clientOutput = "Continue";
+         // clientOutput = "Continue";
          } else if (serverInput.equals("ENTER_NAME")){
        while (true) {
        clientOutput = scanner.nextLine();

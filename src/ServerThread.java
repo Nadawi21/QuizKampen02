@@ -18,7 +18,7 @@ public class ServerThread implements Runnable {
     private Server server;
     private Game game;
 
-    private int rightAnswer=1; //Rätt svar är alltid 1
+    private int rightAnswer = 1; //Rätt svar är alltid 1
 
     //Tar inputStream från Client för att läsa från Client
     private InputStream inputStream;
@@ -47,46 +47,46 @@ public class ServerThread implements Runnable {
         }
     }
 
-//Kör spelets flöde för denna klient (kör servertråden)
-public void run() {
-    System.out.println("Ny spelare har anslutit.");
+    //Kör spelets flöde för denna klient (kör servertråden)
+    public void run() {
+        System.out.println("Ny spelare har anslutit.");
 
-    //Registrera klienten på servern
-    server.registerClient(inputStream, outputStream, this); //denna inputstream, denna outputstream, denna instans
+        //Registrera klienten på servern
+        server.registerClient(inputStream, outputStream, this); //denna inputstream, denna outputstream, denna instans
 
-    boolean playAgain = true;
+        boolean playAgain = true;
 
-    while (playAgain) {
+        while (playAgain) {
 
-        //Väntar på den andra spelaren
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            System.out.println("Misslyckades med att vänta på den andra spelaren");
+            //Väntar på den andra spelaren
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.out.println("Misslyckades med att vänta på den andra spelaren");
+            }
+
+            //Startar spelet
+            startGame(game);
+
+            //Informerar game att klienten är klar med spelet
+            game.playerFinished();
+
+            //Väntar på att den andra klienten ska avsluta spelet
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.out.println("Misslyckades med att vänta på den andra spelaren");
+            }
+
         }
-
-        //Startar spelet
-        startGame(game);
-
-        //Informerar game att klienten är klar med spelet
-        game.playerFinished();
-
-        //Väntar på att den andra klienten ska avsluta spelet
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            System.out.println("Misslyckades med att vänta på den andra spelaren");
-        }
-
     }
-}
 
-//Startar spelet för en klient
+    //Startar spelet för en klient
 // Här svarar kliennten på frågorna
 //Klienten får reda på om svaret är rätt eller fel
-private void startGame (Game game){
+    private void startGame(Game game) {
 
         this.answer = game.getAnswer();
 
@@ -94,18 +94,54 @@ private void startGame (Game game){
             String clientInput;
             String outputMessage;
 
-        if (clientInput.equals(rightAnswer)) {
-            outputMessage = "Korrekt svar!";
-        } else {
-            outputMessage = "Fel svar!";
+            if (clientInput.equals(rightAnswer)) {
+                outputMessage = "Korrekt svar!";
+            } else {
+                outputMessage = "Fel svar!";
 
-        }
-        }catch (Exception e){
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Fel när klientens svar kontrollerades");
         }
 
     }
-//stannade vid getInput i serverThread
 
+    // Skickar nuvarande state till Client och får svar från Client
+    private String getInput(OutputStream outputStream, InputStream inputStream, String state) {
+        byte[] buffer = new byte[BUFFER];
+        String input_from_client = null;
+
+        //Skickar state till Client och får svar
+        try {
+            outputStream.write(state.getBytes());
+            inputStream.read(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Problem vid läsning från client om state");
+        }
+
+        //Konvertera till String
+        input_from_client = new String(buffer);
+        //input_from_client = new String(buffer).replace("\0","");
+        return input_from_client;
+    }
+
+    //  Sets client name
+    public void setClientUsername(String ClientUsername)
+    {
+        this.clientUsername = ClientUsername;
+    }
+
+    //  Gets client name
+    public String getClientUsername()
+    {
+        return this.clientUsername;
+    }
+
+    //  Sets game
+    public void setGame(Game game)
+    {
+        this.game = game;
+    }
 }
