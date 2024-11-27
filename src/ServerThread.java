@@ -128,20 +128,17 @@ public class ServerThread implements Runnable {
     }
 
     //  Sets client name
-    public void setClientUsername(String ClientUsername)
-    {
+    public void setClientUsername(String ClientUsername) {
         this.clientUsername = ClientUsername;
     }
 
     //  Gets client name
-    public String getClientUsername()
-    {
+    public String getClientUsername() {
         return this.clientUsername;
     }
 
     //  Sets game
-    public void setGame(Game game)
-    {
+    public void setGame(Game game) {
         this.game = game;
     }
 }
