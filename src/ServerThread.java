@@ -18,7 +18,7 @@ public class ServerThread implements Runnable {
     private Server server;
     private Game game;
 
-    private String rightAnswer; //Håller rätt svar från Game
+    private int rightAnswer=1; //Rätt svar är alltid 1
 
     //Tar inputStream från Client för att läsa från Client
     private InputStream inputStream;
@@ -80,15 +80,32 @@ public void run() {
             System.out.println("Misslyckades med att vänta på den andra spelaren");
         }
 
-        //Frågar om spelaren vill spela igen
-        playAgain = playAgain(server);
     }
 }
 
+//Startar spelet för en klient
+// Här svarar kliennten på frågorna
+//Klienten får reda på om svaret är rätt eller fel
+private void startGame (Game game){
 
+        this.answer = game.getAnswer();
 
+        try {
+            String clientInput;
+            String outputMessage;
 
+        if (clientInput.equals(rightAnswer)) {
+            outputMessage = "Korrekt svar!";
+        } else {
+            outputMessage = "Fel svar!";
 
+        }
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Fel när klientens svar kontrollerades");
+        }
 
+    }
+//stannade vid getInput i serverThread
 
 }
