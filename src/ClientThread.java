@@ -24,14 +24,6 @@ public class ClientThread extends Thread {
             while ((serverInput = bufferedReader.readLine()) != null) {
                 System.out.println(serverInput);
 
-                //State-logiken börjar här
-                /*if (serverInput.equals("EXIT_GAME")) {
-                    break;
-                } else if (serverInput.equals("ENTER_NAME")) {
-                    while (true) {
-                        clientOutput = scanner.nextLine();
-                    }
-                } else if (serverInput.equals("ASK_QUESTION"));*/
                 clientOutput = scanner.nextLine();
 
                 //Skickar antingen användarnamn eller svar till servern
