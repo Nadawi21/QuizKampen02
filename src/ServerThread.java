@@ -53,17 +53,7 @@ public class ServerThread implements Runnable {
         //Registrera klienten på servern
         server.registerClient(inputStream, outputStream, this); //denna inputstream, denna outputstream, denna instans
 
-        boolean playAgain = true;
-
-        while (playAgain) {
-
-            //Väntar på den andra spelaren
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.out.println("Misslyckades med att vänta på den andra spelaren");
-            }
+        while (true) {
 
             //Startar spelet
             startGame(game);

@@ -1,43 +1,31 @@
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class ClientThread extends Thread {
 
-    private Socket socket;
-
-    public ClientThread(Socket socket) {
-        this.setDaemon(true); //prova att ta bort/ändra
-        this.socket = socket;
+    public ClientThread() {
+        run();
     }
 
     //Denna metod kör klienttrådarna parallellt
     public void run() {
-        //InputStream inputStream = null;
-         //outputStream = null;
-        Scanner scanner = null;
+        Scanner scanner;
 
         //Tar serverns inputstream och läser från servern
         //Tar serverns outputstream och skriver till servern
-        try (InputStream inputStream = new InputStream(socket.getInputStream());
-             OutputStream outputStream = socket.getOutputStream();
+        try (Socket socket = new Socket("127.0.0.1", 8091);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         ) {
             scanner = new Scanner(System.in);
 
             String serverInput;
             String clientOutput = "";
-            //Buffrar bytes från servern
-            byte[] serverBuffer = new byte[2739];
            //loopen tar in input från servertråden och driver spelet framåt utifrån states
             while (true) {
 
-                inputStream.read(serverBuffer);
-                //konverterar buffer
-                serverInput = new String(serverBuffer);
-                //Rensar buffer
-                serverBuffer = new byte[2739];
+                serverInput = bufferedReader.readLine();
 
                 //State-logiken börjar här
                 if (serverInput.equals("EXIT_GAME")) {
@@ -51,7 +39,7 @@ public class ClientThread extends Thread {
                 //..Detta kommer att byggas ut
 
                 //Skickar antingen användarnamn eller svar till servern
-                outputStream.write(clientOutput.getBytes());
+                out.write(clientOutput);
             }
         } catch (IOException e) {
             e.printStackTrace();
