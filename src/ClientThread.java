@@ -10,8 +10,7 @@ public class ClientThread extends Thread {
 
     //Denna metod kör klienttrådarna parallellt
     public void run() {
-        //Tar serverns inputstream och läser från servern
-        //Tar serverns outputstream och skriver till servern
+        //Tar serverns input- och outputstream och läser från servern
         try (Socket socket = new Socket("127.0.0.1", 8091);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));

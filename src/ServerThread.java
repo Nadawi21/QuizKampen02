@@ -1,8 +1,9 @@
-//ServerThread hämtar ClientsThreads socket från Server.
-//Hämtar svar på fråga från ClientThread och skickar meddelanden dit
-//Game klassen tas in för att invänta spelstart och vänta på andra spelare
-
-//Kollar om enskilt svar är rätt men jämför inte poäng
+/*
+ServerThread hämtar ClientsThreads socket från Server.
+Hämtar svar på fråga från ClientThread och skickar meddelanden dit
+Game klassen tas in för att invänta spelstart och vänta på andra spelare
+Kollar om enskilt svar är rätt men jämför inte poäng
+ */
 
 import java.io.*;
 import java.net.Socket;
@@ -10,8 +11,6 @@ import java.net.Socket;
 public class ServerThread implements Runnable {
 
     private Socket clientSocket;
-    private String clientUsername;
-    // ev ha med counter för antal rätt
     private Server server;
     private Game game;
 
@@ -21,8 +20,6 @@ public class ServerThread implements Runnable {
     BufferedReader bufferedReader;
     //Tar outputStream från Client för att läsa från Client
     PrintWriter printWriter;
-
-    private final int BUFFER = 2739;
 
     //Konstruktor startas upp av servern och tar Clients socket och servern
     public ServerThread(Socket ClientSocket, Server server) {
@@ -47,15 +44,13 @@ public class ServerThread implements Runnable {
 
         //Registrera klienten på servern
         server.registerClient(bufferedReader, printWriter, this); //denna inputstream, denna outputstream, denna instans
-
-            //Startar spelet
-            //startGame(game);
-
     }
 
-    //Startar spelet för en klient
-// Här svarar kliennten på frågorna
-//Klienten får reda på om svaret är rätt eller fel
+    /*
+    Startar spelet för en klient
+    Här svarar klienten på frågorna
+    Klienten får reda på om svaret är rätt eller fel
+    */
     public void startGame(Game game) {
 
         try {

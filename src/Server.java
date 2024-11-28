@@ -10,7 +10,6 @@ public class Server {
     private List<ServerThread> listOfClients;
     private boolean activeServer;
 
-
     public Server() {
         port = 8091;
         this.listOfClients = new ArrayList<>();
@@ -33,13 +32,6 @@ public class Server {
     public synchronized void registerClient(BufferedReader inputStream, PrintWriter outputStream, ServerThread clientThread) {
         listOfClients.add(clientThread);
         System.out.println("En till klient har blivit tillagd till listan över klienter.");
-    }
-
-    //TODO: Få servern att skicka ASK_QUESTION till båda klienterna
-
-    // Skickar output till Client och väntar på continue message.
-    public void sendOutput(PrintWriter outputStream, String output){
-        outputStream.write(output);
     }
 
     // Main metod för att starta servern
