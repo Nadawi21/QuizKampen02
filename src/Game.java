@@ -51,6 +51,9 @@ public class Game extends Thread{
                 throw new RuntimeException(e);
             }
         }
+
+        server.getActvieUserName();
+
         //Lägger till servertrådar till listan
         for(int i = 0; i < MAX_CLIENTS; i++){
             serverThreads.add(server.getQueue().get(i));

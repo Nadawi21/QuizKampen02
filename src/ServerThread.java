@@ -44,18 +44,20 @@ public class ServerThread implements Runnable {
             userName = bufferedReader.readLine();
 
             System.out.println(userName + " har anslutit.");
+            //Registrera klienten på servern
+            server.registerClient(bufferedReader, printWriter, this); //denna inputstream, denna outputstream, denna instans
+
             game = new Game(server);
             game.start();
 
-            //Registrera klienten på servern
-            server.registerClient(bufferedReader, printWriter, this); //denna inputstream, denna outputstream, denna instans
+
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public String getUserName() {
+    public String getUserName(){
         return userName;
     }
 
