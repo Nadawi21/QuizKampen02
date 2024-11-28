@@ -26,6 +26,7 @@ public class ClientThread extends Thread {
             while (true) {
 
                 serverInput = bufferedReader.readLine();
+                System.out.println(serverInput);
 
                 //State-logiken börjar här
                 if (serverInput.equals("EXIT_GAME")) {

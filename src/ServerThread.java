@@ -4,9 +4,7 @@
 
 //Kollar om enskilt svar är rätt men jämför inte poäng
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class ServerThread implements Runnable {
@@ -20,9 +18,9 @@ public class ServerThread implements Runnable {
     private int rightAnswer = 1; //Rätt svar är alltid 1
 
     //Tar inputStream från Client för att läsa från Client
-    private InputStream inputStream;
+    BufferedReader bufferedReader;
     //Tar outputStream från Client för att läsa från Client
-    private OutputStream outputStream;
+    PrintWriter printWriter;
 
     private boolean hold; //Väntar på andra spelaren
     private final int BUFFER = 2739;
@@ -38,8 +36,8 @@ public class ServerThread implements Runnable {
 
         //Skapar upp klientens input- och outputstream
         try {
-            inputStream = clientSocket.getInputStream();
-            outputStream = clientSocket.getOutputStream();
+            printWriter = new PrintWriter(clientSocket.getOutputStream());
+            bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Lyckades inte skapa upp klientens input- och outputstream");
@@ -51,7 +49,7 @@ public class ServerThread implements Runnable {
         System.out.println("Ny spelare har anslutit.");
 
         //Registrera klienten på servern
-        server.registerClient(inputStream, outputStream, this); //denna inputstream, denna outputstream, denna instans
+        server.registerClient(bufferedReader, printWriter, this); //denna inputstream, denna outputstream, denna instans
 
         while (true) {
 
@@ -78,7 +76,8 @@ public class ServerThread implements Runnable {
             String clientInput;
             String outputMessage;
 
-            clientInput = String.valueOf(inputStream.read());
+
+            clientInput = String.valueOf(bufferedReader.read());
 
             if (clientInput.equals(rightAnswer)) {
                 outputMessage = "Korrekt svar!";

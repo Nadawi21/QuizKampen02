@@ -41,9 +41,11 @@ public class Game extends Thread{
 
         for(ServerThread serverThread : serverThreads){
             serverThread.startGame(this);
-            serverThread.notify();
+            serverThread.printWriter.println(QUESTION);
+            serverThread.printWriter.println(RIGHT_ANSWER);
+            serverThread.printWriter.println(WRONG_ANSWER1);
+            serverThread.printWriter.println(WRONG_ANSWER2);
+            serverThread.printWriter.println(WRONG_ANSWER3);
         }
-
     }
-
 }

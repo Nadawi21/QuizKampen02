@@ -1,6 +1,4 @@
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -34,7 +32,7 @@ public class Server {
         }
     }
 
-    public synchronized void registerClient(InputStream inputStream, OutputStream outputStream, ServerThread clientThread) {
+    public synchronized void registerClient(BufferedReader inputStream, PrintWriter outputStream, ServerThread clientThread) {
         listOfClients.add(clientThread);
         System.out.println("En till klient har blivit till lagd." + clientThread.getClientUsername());
     }
