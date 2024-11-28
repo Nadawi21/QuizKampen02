@@ -36,6 +36,18 @@ public class Server {
     }
 
     //TODO: Få servern att skicka ASK_QUESTION till båda klienterna
+    // Metod för att skicka ASK_QUESTION till alla klienter
+    public void sendAskQuestionToAllClients() {
+        // Iterera genom alla anslutna klienttrådar och skicka meddelandet till varje klient
+        for (ServerThread clientThread : listOfClients) {
+            try {
+                // Skicka "ASK_QUESTION" till klientens output stream
+                clientThread.sendMessage("ASK_QUESTION");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     // Skickar output till Client och väntar på continue message.
     public static void sendOutput(OutputStream outputStream, InputStream inputStream, String output) throws IOException {

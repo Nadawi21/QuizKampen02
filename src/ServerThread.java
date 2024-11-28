@@ -74,6 +74,9 @@ public class ServerThread implements Runnable {
 
             clientInput = String.valueOf(bufferedReader.read());
 
+            // Skicka ASK_QUESTION till alla anslutna klienter
+            server.sendAskQuestionToAllClients();
+
             if (clientInput.equals(rightAnswer)) {
                 outputMessage = "Korrekt svar!";
             } else {
@@ -85,6 +88,12 @@ public class ServerThread implements Runnable {
             System.out.println("Fel när klientens svar kontrollerades");
         }
 
+    }
+
+    // Metod för att skicka meddelande till klienten
+    public void sendMessage(String message) throws IOException {
+        printWriter.println(message);
+        printWriter.flush();
     }
 
     // Skickar nuvarande state till Client och får svar från Client
