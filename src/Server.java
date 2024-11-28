@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Server {
 
@@ -12,12 +13,10 @@ public class Server {
     private List<ServerThread> listOfClients;
     private boolean activeServer;
 
-    public Server(int port) {
-        this.port = port;
+    public Server() {
+        // Sätt porten för servern
+        port = 12345;
         this.listOfClients = new ArrayList<>(); //TODO: kanske kan tas bort om listan inte används
-    }
-
-    public void startServer() {
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (activeServer) {
@@ -48,11 +47,15 @@ public class Server {
 
     // Main metod för att starta servern
     public static void main(String[] args) {
-        // Sätt porten för servern
-        int port = 12345;
-
         // Skapa och starta servern
-        Server server = new Server(port);
-        server.startServer();  // Starta servern i huvudtråden
+        Server server = new Server();
+    }
+
+    public List<ServerThread> getQueue() {
+        return listOfClients;
+    }
+
+    public void resetQueue() {
+        listOfClients.clear();
     }
 }

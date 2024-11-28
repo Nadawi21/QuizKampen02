@@ -68,9 +68,6 @@ public class ServerThread implements Runnable {
             //Startar spelet
             startGame(game);
 
-            //Informerar game att klienten är klar med spelet
-            game.playerFinished();
-
             //Väntar på att den andra klienten ska avsluta spelet
             try {
                 wait();
@@ -85,16 +82,13 @@ public class ServerThread implements Runnable {
     //Startar spelet för en klient
 // Här svarar kliennten på frågorna
 //Klienten får reda på om svaret är rätt eller fel
-    private void startGame(Game game) {
-
-        //Den här metoden slumpade fram en siffra som spelaren skulle gissa
-        //this.answer = game.getAnswer();
+    public void startGame(Game game) {
 
         try {
             String clientInput;
             String outputMessage;
 
-            //clientInput = inputStream.read();
+            clientInput = String.valueOf(inputStream.read());
 
             if (clientInput.equals(rightAnswer)) {
                 outputMessage = "Korrekt svar!";
@@ -102,7 +96,6 @@ public class ServerThread implements Runnable {
                 outputMessage = "Fel svar!";
 
             }
-            game.nextPlayer(true);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Fel när klientens svar kontrollerades");
