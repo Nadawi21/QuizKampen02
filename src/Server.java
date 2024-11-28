@@ -12,7 +12,6 @@ public class Server {
 
 
     public Server() {
-        // Sätt porten för servern
         port = 8091;
         this.listOfClients = new ArrayList<>(); //TODO: kanske kan tas bort om listan inte används
         activeServer = true;
@@ -22,10 +21,9 @@ public class Server {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("En ny klient har ansultit");
 
-                ServerThread cleintThread = new ServerThread(clientSocket, this);//This för att koppla till denna instans av server
-                listOfClients.add(cleintThread); //En lista för att hålla koll på vilka klienter som har anslutit
-                new Thread(cleintThread).start(); //Skapar upp en ny tråd för varje ansluten klient
-
+                ServerThread serverThread = new ServerThread(clientSocket, this);//This för att koppla till denna instans av server
+                listOfClients.add(serverThread); //En lista för att hålla koll på vilka klienter som har anslutit
+                new Thread(serverThread).start(); //Skapar upp en ny tråd för varje ansluten klient
             }
         } catch (IOException e) {
             e.printStackTrace();

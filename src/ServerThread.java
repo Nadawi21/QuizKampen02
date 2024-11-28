@@ -22,12 +22,7 @@ public class ServerThread implements Runnable {
     //Tar outputStream från Client för att läsa från Client
     PrintWriter printWriter;
 
-    private boolean hold; //Väntar på andra spelaren
     private final int BUFFER = 2739;
-
-    //Användaren kan välja att spela eller avsluta spelet
-    private final String PLAY = "p";
-    private final String EXIT = "e";
 
     //Konstruktor startas upp av servern och tar Clients socket och servern
     public ServerThread(Socket ClientSocket, Server server) {
