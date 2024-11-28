@@ -27,7 +27,7 @@ public class ClientThread extends Thread {
             scanner = new Scanner(System.in);
 
             String serverInput;
-            String clientOutput;
+            String clientOutput = "";
             //Buffrar bytes från servern
             byte[] serverBuffer = new byte[2739];
 //loopen tar in input från servertråden och driver spelet framåt utifrån states
