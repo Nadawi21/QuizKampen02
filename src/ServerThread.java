@@ -13,6 +13,7 @@ public class ServerThread implements Runnable {
     private Socket clientSocket;
     private Server server;
     private Game game;
+    private String userName;
 
     private int rightAnswer = 1; //Rätt svar är alltid 1
 
@@ -38,12 +39,24 @@ public class ServerThread implements Runnable {
 
     //Kör spelets flöde för denna klient (kör servertråden)
     public void run() {
-        System.out.println("Ny spelare har anslutit.");
-        game = new Game(server);
-        game.start();
+        try{
+            printWriter.println("Välj ett användarnamn: ");
+            userName = bufferedReader.readLine();
 
-        //Registrera klienten på servern
-        server.registerClient(bufferedReader, printWriter, this); //denna inputstream, denna outputstream, denna instans
+            System.out.println(userName + " har anslutit.");
+            game = new Game(server);
+            game.start();
+
+            //Registrera klienten på servern
+            server.registerClient(bufferedReader, printWriter, this); //denna inputstream, denna outputstream, denna instans
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     /*
