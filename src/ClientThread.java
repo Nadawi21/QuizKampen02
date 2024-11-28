@@ -35,9 +35,8 @@ public class ClientThread extends Thread {
                     while (true) {
                         clientOutput = scanner.nextLine();
                     }
-                    //TODO: Vi kanske behöver ett state som ställer en fråga till att börja med
-                }
-                //..Detta kommer att byggas ut
+                } else if (serverInput.equals("ASK_QUESTION"));
+                clientOutput = "Fråga 1";
 
                 //Skickar antingen användarnamn eller svar till servern
                 out.write(clientOutput);

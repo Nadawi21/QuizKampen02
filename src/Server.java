@@ -13,13 +13,13 @@ public class Server {
 
     public Server() {
         port = 8091;
-        this.listOfClients = new ArrayList<>(); //TODO: kanske kan tas bort om listan inte används
+        this.listOfClients = new ArrayList<>();
         activeServer = true;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (activeServer) {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("En ny klient har ansultit");
+                System.out.println("En ny klient har anslutit");
 
                 ServerThread serverThread = new ServerThread(clientSocket, this);//This för att koppla till denna instans av server
                 listOfClients.add(serverThread); //En lista för att hålla koll på vilka klienter som har anslutit
@@ -32,8 +32,10 @@ public class Server {
 
     public synchronized void registerClient(BufferedReader inputStream, PrintWriter outputStream, ServerThread clientThread) {
         listOfClients.add(clientThread);
-        System.out.println("En till klient har blivit till lagd." + clientThread.getClientUsername());
+        System.out.println("En till klient har blivit tillagd till listan över klienter." + clientThread.getClientUsername());
     }
+
+    //TODO: Få servern att skicka ASK_QUESTION till båda klienterna
 
     // Skickar output till Client och väntar på continue message.
     public static void sendOutput(OutputStream outputStream, InputStream inputStream, String output) throws IOException {
@@ -44,7 +46,6 @@ public class Server {
 
     // Main metod för att starta servern
     public static void main(String[] args) {
-        // Skapa och starta servern
         Server server = new Server();
     }
 
