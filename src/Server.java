@@ -13,10 +13,12 @@ public class Server {
     private List<ServerThread> listOfClients;
     private boolean activeServer;
 
+
     public Server() {
         // Sätt porten för servern
-        port = 12345;
+        port = 8091;
         this.listOfClients = new ArrayList<>(); //TODO: kanske kan tas bort om listan inte används
+        activeServer = true;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (activeServer) {
