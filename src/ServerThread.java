@@ -87,11 +87,14 @@ public class ServerThread implements Runnable {
 //Klienten får reda på om svaret är rätt eller fel
     private void startGame(Game game) {
 
-        this.answer = game.getAnswer();
+        //Den här metoden slumpade fram en siffra som spelaren skulle gissa
+        //this.answer = game.getAnswer();
 
         try {
             String clientInput;
             String outputMessage;
+
+            //clientInput = inputStream.read();
 
             if (clientInput.equals(rightAnswer)) {
                 outputMessage = "Korrekt svar!";
@@ -99,6 +102,7 @@ public class ServerThread implements Runnable {
                 outputMessage = "Fel svar!";
 
             }
+            game.nextPlayer(true);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Fel när klientens svar kontrollerades");
