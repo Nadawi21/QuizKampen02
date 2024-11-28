@@ -11,15 +11,11 @@ public class Server {
     private boolean activeServer;
 
     public Server() {
-        port = 8091;
+        port = 8093;
         this.listOfClients = new ArrayList<>();
         activeServer = true;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-
-            Game game = new Game(this);
-            game.start();
-
             while (activeServer) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("En ny klient har anslutit");
@@ -36,14 +32,6 @@ public class Server {
     public synchronized void registerClient(BufferedReader inputStream, PrintWriter outputStream, ServerThread clientThread) {
         listOfClients.add(clientThread);
         System.out.println("En till klient har blivit tillagd till listan över klienter.");
-    }
-    public List<String> getActvieUserName(){
-        List<String> userNames = new ArrayList<>();
-
-        for (ServerThread thread : listOfClients){
-            userNames.add(thread.getUserName());
-        }
-        return userNames;
     }
 
     // Main metod för att starta servern

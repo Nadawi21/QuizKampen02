@@ -44,6 +44,7 @@ public class ServerThread implements Runnable {
             userName = bufferedReader.readLine();
 
             System.out.println(userName + " har anslutit.");
+
             //Registrera klienten på servern
             server.registerClient(bufferedReader, printWriter, this); //denna inputstream, denna outputstream, denna instans
 
@@ -57,7 +58,7 @@ public class ServerThread implements Runnable {
         }
     }
 
-    public String getUserName(){
+    public String getUserName() {
         return userName;
     }
 
@@ -78,8 +79,11 @@ public class ServerThread implements Runnable {
             System.out.println(game.getQUESTION());
 
             while((clientInput = bufferedReader.readLine()) != null) {
+                // GJorde om detta till en boolean för att kunna skicka in det i updatePoints konstruktor
+                boolean rightAwnserBoolean = clientInput.equals(String.valueOf(rightAnswer));
+                game.updatePoint(this,rightAwnserBoolean);
 
-                if (clientInput.equals(String.valueOf(rightAnswer))) {
+                if (rightAwnserBoolean) {
                     outputMessage = "Korrekt svar!";
                     printWriter.println(outputMessage);
                 } else {
@@ -91,5 +95,8 @@ public class ServerThread implements Runnable {
             e.printStackTrace();
             System.out.println("Fel när klientens svar kontrollerades");
         }
+    }
+    public void sendMessage(String message) {
+        printWriter.println(message);
     }
 }
