@@ -32,7 +32,7 @@ public class Server {
 
     public synchronized void registerClient(BufferedReader inputStream, PrintWriter outputStream, ServerThread clientThread) {
         listOfClients.add(clientThread);
-        System.out.println("En till klient har blivit tillagd till listan över klienter." + clientThread.getClientUsername());
+        System.out.println("En till klient har blivit tillagd till listan över klienter.");
     }
 
     //TODO: Få servern att skicka ASK_QUESTION till båda klienterna
