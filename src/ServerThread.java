@@ -31,7 +31,7 @@ public class ServerThread implements Runnable {
 
         //Skapar upp klientens input- och outputstream
         try {
-            printWriter = new PrintWriter(clientSocket.getOutputStream());
+            printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
             bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,24 +42,15 @@ public class ServerThread implements Runnable {
     //Kör spelets flöde för denna klient (kör servertråden)
     public void run() {
         System.out.println("Ny spelare har anslutit.");
+        game = new Game(server);
+        game.start();
 
         //Registrera klienten på servern
         server.registerClient(bufferedReader, printWriter, this); //denna inputstream, denna outputstream, denna instans
 
-        while (true) {
-
             //Startar spelet
-            startGame(game);
+            //startGame(game);
 
-            //Väntar på att den andra klienten ska avsluta spelet
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.out.println("Misslyckades med att vänta på den andra spelaren");
-            }
-
-        }
     }
 
     //Startar spelet för en klient
@@ -71,54 +62,24 @@ public class ServerThread implements Runnable {
             String clientInput;
             String outputMessage;
 
+            printWriter.println(game.getQUESTION() + ", " + game.getRIGHT_ANSWER() + ", " +
+                    game.getWRONG_ANSWER1() + ", " + game.getWRONG_ANSWER2() + ", " +
+                    game.getWRONG_ANSWER3());
+            System.out.println(game.getQUESTION());
 
-            clientInput = String.valueOf(bufferedReader.read());
+            while((clientInput = bufferedReader.readLine()) != null) {
 
-            if (clientInput.equals(rightAnswer)) {
-                outputMessage = "Korrekt svar!";
-            } else {
-                outputMessage = "Fel svar!";
-
+                if (clientInput.equals(String.valueOf(rightAnswer))) {
+                    outputMessage = "Korrekt svar!";
+                    printWriter.println(outputMessage);
+                } else {
+                    outputMessage = "Fel svar!";
+                    printWriter.println(outputMessage);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Fel när klientens svar kontrollerades");
         }
-
-    }
-
-    // Skickar nuvarande state till Client och får svar från Client
-    private String getInput(OutputStream outputStream, InputStream inputStream, String state) {
-        byte[] buffer = new byte[BUFFER];
-        String input_from_client = null;
-
-        //Skickar state till Client och får svar
-        try {
-            outputStream.write(state.getBytes());
-            inputStream.read(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Problem vid läsning från client om state");
-        }
-
-        //Konvertera till String
-        input_from_client = new String(buffer);
-        //input_from_client = new String(buffer).replace("\0","");
-        return input_from_client;
-    }
-
-    //  Sets client name
-    public void setClientUsername(String ClientUsername) {
-        this.clientUsername = ClientUsername;
-    }
-
-    //  Gets client name
-    public String getClientUsername() {
-        return this.clientUsername;
-    }
-
-    //  Sets game
-    public void setGame(Game game) {
-        this.game = game;
     }
 }

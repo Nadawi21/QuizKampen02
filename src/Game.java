@@ -8,6 +8,26 @@ public class Game extends Thread{
     private final int WRONG_ANSWER2 = 3;
     private final int WRONG_ANSWER3 = 4;
 
+    public String getQUESTION() {
+        return QUESTION;
+    }
+
+    public int getRIGHT_ANSWER() {
+        return RIGHT_ANSWER;
+    }
+
+    public int getWRONG_ANSWER1() {
+        return WRONG_ANSWER1;
+    }
+
+    public int getWRONG_ANSWER2() {
+        return WRONG_ANSWER2;
+    }
+
+    public int getWRONG_ANSWER3() {
+        return WRONG_ANSWER3;
+    }
+
     //Anger att det får vara max 2 användare per spel
     private final int MAX_CLIENTS = 1;
 
@@ -41,11 +61,6 @@ public class Game extends Thread{
 
         for(ServerThread serverThread : serverThreads){
             serverThread.startGame(this);
-            serverThread.printWriter.println(QUESTION);
-            serverThread.printWriter.println(RIGHT_ANSWER);
-            serverThread.printWriter.println(WRONG_ANSWER1);
-            serverThread.printWriter.println(WRONG_ANSWER2);
-            serverThread.printWriter.println(WRONG_ANSWER3);
         }
     }
 }

@@ -38,10 +38,8 @@ public class Server {
     //TODO: Få servern att skicka ASK_QUESTION till båda klienterna
 
     // Skickar output till Client och väntar på continue message.
-    public static void sendOutput(OutputStream outputStream, InputStream inputStream, String output) throws IOException {
-        byte[] buffer = new byte[2739];
-        outputStream.write(output.getBytes());
-        inputStream.read(buffer);
+    public void sendOutput(PrintWriter outputStream, String output){
+        outputStream.write(output);
     }
 
     // Main metod för att starta servern
