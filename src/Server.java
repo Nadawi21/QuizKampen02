@@ -39,5 +39,3 @@ public class Server {
         System.out.println("En till klient har blivit till lagd." + clientThread.getClientUsername());
     }
 }
-
-
