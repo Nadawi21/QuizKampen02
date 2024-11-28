@@ -50,6 +50,7 @@ public class ClientThread extends Thread {
                     while (true) {
                         clientOutput = scanner.nextLine();
                     }
+                    //TODO: Vi kanske behöver ett state som ställer en fråga till att börja med
                 }
                 //..Detta kommer att byggas ut
 
