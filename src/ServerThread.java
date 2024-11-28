@@ -1,4 +1,3 @@
-
 //ServerThread hämtar ClientsThreads socket från Server.
 //Hämtar svar på fråga från ClientThread och skickar meddelanden dit
 //Game klassen tas in för att invänta spelstart och vänta på andra spelare
